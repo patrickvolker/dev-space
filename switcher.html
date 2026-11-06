@@ -357,7 +357,7 @@
         <div class="sticky-footer" style="border-radius: 16px; margin-top: 24px;">
             
             <button class="checkout-btn">
-                CHECKOUT <span id="btnPrice">$91</span>
+                CHECKOUT <span id="totalPrice">$110</span>
             </button>
         </div>
     </div>
@@ -368,7 +368,6 @@
         const oneTimeCard = document.getElementById('oneTimeCard');
         const subCard = document.getElementById('subCard');
         const totalPrice = document.getElementById('totalPrice');
-        const btnPrice = document.getElementById('btnPrice');
 
         options.forEach(option => {
             option.addEventListener('click', () => {
@@ -394,7 +393,6 @@
 
         function updatePrice(val) {
             totalPrice.innerText = `$${val}`;
-            btnPrice.innerText = `$${val}`;
         }
     </script>
 </body>
