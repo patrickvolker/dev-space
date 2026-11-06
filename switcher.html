@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRO Bundle Mockup - AH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8f6f2;
+            --accent-dark: #2d2a27;
+            --accent-gold: #bca37d;
+            --white: #ffffff;
+            --text-muted: #666;
+            --success-green: #e6f4ea;
+            --success-text: #1e7e34;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e0e0e0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* Mobile Device Simulator */
+        .phone-container {
+            width: 440px;
+            background-color: var(--bg-color);
+            min-height: 812px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 100px; /* Space for sticky button */
+        }
+
+        .header {
+            background-color: var(--accent-dark);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 24px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--accent-dark);
+        }
+
+        .step-indicator {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* --- THE TOGGLE SECTION --- */
+        .toggle-container {
+            display: flex;
+            background: #ddd;
+            padding: 4px;
+            border-radius: 50px;
+            position: relative;
+            margin-bottom: 24px;
+            user-select: none;
+        }
+
+        .toggle-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.3s ease;
+            color: var(--text-muted);
+        }
+
+        .toggle-option.active {
+            color: var(--accent-dark);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            height: calc(100% - 8px);
+            background: var(--white);
+            border-radius: 50px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        .toggle-container.sub-active .toggle-slider {
+            transform: translateX(100%);
+        }
+
+        /* --- DYNAMIC CARD SECTION --- */
+        .plan-card {
+            background: var(--white);
+            border: 1px solid #eee;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .plan-card.highlight {
+            border: 2px solid var(--accent-gold);
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .current-price {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-dark);
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .savings-pill {
+            background: var(--success-green);
+            color: var(--success-text);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #444;
+        }
+
+        .benefit-item svg {
+            color: var(--accent-gold);
+            flex-shrink: 0;
+        }
+
+        .gift-box {
+            margin-top: 20px;
+            padding: 12px;
+            background: #fcfaf7;
+            border: 1px dashed var(--accent-gold);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .gift-box img {
+            width: 40px;
+            border-radius: 4px;
+        }
+
+        .gift-text {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* --- STICKY FOOTER --- */
+        .sticky-footer {
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            /* background: var(--white); */
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        }
+
+        .total-line {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-dark);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--accent-dark);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .checkout-btn:active {
+            opacity: 0.8;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container" style="background-color: lightyellow;">
+        <div class="header">Holiday Gifts Sale: Up to 40% Off + Free Sampler</div>
+        
+        <div class="content">
+            <h1>Get Your AH</h1>
+            <div class="step-indicator">Step 3 of 3: Choose Your Plan</div>
+            <div class="kit-container" style="display: flex; flex-direction: column; min-width: 0;">
+               
+                <div class="kit-info" style="padding: 14px 12px; border:2px solid lightgray; display: flex; flex-direction: column; gap: 12px; " data-open="true">
+                  
+                  <div class="kit-rows" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="kit-item" style="display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 19px; text-align: left;">
+                        <div class="kit-thumb" style="position: relative; width: 48px; height: 48px; flex-shrink: 0;">
+                            <img class="kit-img" src="https://aurahouse.com/cdn/shop/files/AuraDiffuser_Cream.png?v=1783417846&amp;width=120" alt="" loading="lazy" width="48" height="48" style="object-fit: cover; display: block;">
+                        </div>
+                        <div class="kit-item-details" style="display: flex; flex-direction: column; flex: 1 0 0; min-width: 1px; gap: 4px; align-items: flex-start;">
+                            <p class="kit-item-name" style="font-size: 14px; margin: 0;">The Aura Diffuser</p>
+                            <p class="kit-item-sub" style="font-size: 12px; margin: 0; line-height: 17px; color: lightgray;">One-time purchase</p>
+                        </div>
+                        <p class="kit-item-price" style="font-size: 14px; font-weight: 600; text-align: right; white-space: nowrap; flex-shrink: 0;"><span>$59</span><s style="color: lightgray;">$100</s></p>
+                    </div>
+                    <div class="kit-item" style="display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 19px; text-align: left;">
+                        <div class="kit-thumb" style="position: relative; width: 48px; height: 48px; flex-shrink: 0;">
+                            <img class="kit-img" src="https://aurahouse.com/cdn/shop/files/aurahouse-30mlsquare-51.jpg?v=1783416137&width=120" alt="" loading="lazy" width="48" height="48" style="object-fit: cover; display: block;">
+                        </div>
+                        <div class="kit-item-details" style="display: flex; flex-direction: column; flex: 1 0 0; min-width: 1px; gap: 4px; align-items: flex-start;">
+                            <p class="kit-item-name" style="font-size: 14px; margin: 0;">Collins</p>
+                            <p class="kit-item-sub" style="font-size: 12px; margin: 0; line-height: 17px; color: lightgray;">Ships every 30 days</p>
+                        </div>
+                        <p class="kit-item-price" style="font-size: 14px; font-weight: 600; text-align: right; flex-shrink: 0;"><span>$59</span><s style="color: lightgray;">$100</s></p>
+                    </div>
+                    <div class="kit-item" style="display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 19px; text-align: left;">
+                        <div class="kit-thumb" style="position: relative; width: 48px; height: 48px; flex-shrink: 0;">
+                            <img class="kit-img" src="https://aurahouse.com/cdn/shop/files/8d5e5560-93b2-4399-b6e8-805b951f4192.png?v=1783415205&width=100" alt="" loading="lazy" width="48" height="48" style="object-fit: cover; display: block;">
+                        </div>
+                        <div class="kit-item-details" style="display: flex; flex-direction: column; flex: 1 0 0; min-width: 1px; gap: 4px; align-items: flex-start;">
+                            <p class="kit-item-name" style="font-size: 14px; margin: 0;">The Ultimate Fragrance Sampler</p>
+                            <p class="kit-item-sub" style="font-size: 12px; margin: 0; line-height: 17px; color: lightgray;">Free gift with Luxe</p>
+                        </div>
+                        <p class="kit-item-price" style="font-size: 14px; font-weight: 600; text-align: right; flex-shrink: 0;"><span>$59</span><s style="color: lightgray;">$100</s></p>
+                    </div>
+                </div>
+              </div>
+            <!-- Toggle Switch -->
+            <div class="toggle-container" id="planToggle" style="margin-top: 24px;">
+                <div class="toggle-slider"></div>
+                <div class="toggle-option active" data-plan="one-time">One-Time</div>
+                <div class="toggle-option" data-plan="membership">Membership</div>
+            </div>
+
+            <!-- One-Time Card -->
+            <div id="oneTimeCard" class="plan-card">
+                <div class="price-row">
+                    <span class="current-price">$40</span>
+                    <span class="old-price">$50</span>
+                </div>
+                <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5;">
+                    A simple, one-time purchase. No commitments, no recurring charges.
+                </p>
+                <div style="margin-top: 15px; color: #cc0000; font-size: 12px; font-weight: 600;">
+                    ⚠️ No free sampler included.
+                </div>
+            </div>
+
+            <!-- membership Card -->
+            <div id="subCard" class="plan-card highlight hidden">
+                <div class="badge">Most Popular</div>
+                <div class="price-row">
+                    <span class="current-price">$32</span>
+                    <span class="old-price">$40</span>
+                    <span class="savings-pill">SAVE 20%</span>
+                </div>
+                
+                <ul class="benefit-list">
+                    <li class="benefit-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Ships every 30 days</span>
+                    </li>
+                    <li class="benefit-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Swap scents anytime</span>
+                    </li>
+                    <li class="benefit-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Lifetime diffuser warranty</span>
+                    </li>
+                </ul>
+
+                <div class="gift-box">
+                    <div style="font-size: 24px;">🎁</div>
+                    <div class="gift-text">
+                        <strong>FREE GIFT:</strong> The Ultimate Fragrance Sampler included ($40 Value)
+                    </div>
+                </div>
+                
+                <p style="font-size: 11px; color: var(--text-muted); margin-top: 15px; line-height: 1.4;">
+                    3-month minimum commitment, then cancel anytime.
+                </p>
+            </div>
+        </div>
+
+        <!-- Sticky Footer -->
+        <div class="sticky-footer" style="border-radius: 16px; margin-top: 24px;">
+            
+            <button class="checkout-btn">
+                CHECKOUT <span id="btnPrice">$91</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const toggle = document.getElementById('planToggle');
+        const options = document.querySelectorAll('.toggle-option');
+        const oneTimeCard = document.getElementById('oneTimeCard');
+        const subCard = document.getElementById('subCard');
+        const totalPrice = document.getElementById('totalPrice');
+        const btnPrice = document.getElementById('btnPrice');
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                const plan = option.getAttribute('data-plan');
+                
+                // Update active state
+                options.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+
+                if (plan === 'membership') {
+                    toggle.classList.add('sub-active');
+                    oneTimeCard.classList.add('hidden');
+                    subCard.classList.remove('hidden');
+                    updatePrice(91);
+                } else {
+                    toggle.classList.remove('sub-active');
+                    oneTimeCard.classList.remove('hidden');
+                    subCard.classList.add('hidden');
+                    updatePrice(110); // Assuming higher price for one-time
+                }
+            });
+        });
+
+        function updatePrice(val) {
+            totalPrice.innerText = `$${val}`;
+            btnPrice.innerText = `$${val}`;
+        }
+    </script>
+</body>
+</html>
